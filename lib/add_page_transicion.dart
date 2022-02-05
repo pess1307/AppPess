@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 class AddPageTransition extends PageRouteBuilder {
@@ -14,5 +12,5 @@ class AddPageTransition extends PageRouteBuilder {
         );
 
   @override
-  bool get Opaque => false;
+  bool get opaque => false;
 }

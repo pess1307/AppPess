@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:primera_app_curso/category_select_widget.dart';
@@ -19,7 +18,7 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
   Animation _pageAnimation;
 
   String category;
-  double value = 0;
+  int value = 0;
 
   String dateStr = "HOY";
   DateTime date = DateTime.now();
@@ -33,7 +32,7 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
       duration: Duration(milliseconds: 730),
     );
 
-    _buttonAnimation = Tween<double>(begin: 0.4, end: 1.0).animate(
+    _buttonAnimation = Tween<double>(begin: 0, end: 1.0).animate(
         CurvedAnimation(parent: _controller, curve: Curves.fastOutSlowIn));
 
     _pageAnimation = Tween<double>(begin: -1, end: 1.0).animate(
@@ -141,10 +140,12 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
   }
 
   Widget _currentValue() {
+    var realValue = value / 100.0;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 32.0),
       child: Text(
-        "\S/.${value.toStringAsFixed(2)}",
+        "\S/.${realValue.toStringAsFixed(2)}",
         style: TextStyle(
           fontSize: 50.0,
           color: Colors.lightGreen,
@@ -159,7 +160,11 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
       behavior: HitTestBehavior.opaque,
       onTap: () {
         setState(() {
-          value = value * 10 + int.parse(text);
+          if (text == ",") {
+            value = value * 100;
+          } else {
+            value = value * 10 + int.parse(text);
+          }
         });
       },
       child: Container(
@@ -208,7 +213,7 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
                   behavior: HitTestBehavior.opaque,
                   onTap: () {
                     setState(() {
-                      value = value ~/ 10 + (value - value.toInt());
+                      value = value ~/ 10;
                     });
                   },
                   child: Container(
@@ -233,9 +238,11 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
       var buttonWidth = widget.buttonRect.right - widget.buttonRect.left;
       var w = MediaQuery.of(context).size.width;
       return Positioned(
-        top: widget.buttonRect.top,
         left: widget.buttonRect.left * (1 - _buttonAnimation.value),
+        //<-- Margin from left
         right: (w - widget.buttonRect.right) * (1 - _buttonAnimation.value),
+        //<-- Margin from right
+        top: widget.buttonRect.top,
         bottom:
             (MediaQuery.of(context).size.height - widget.buttonRect.bottom) *
                 (1 - _buttonAnimation.value),
@@ -285,7 +292,7 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
                   var db =
                       Provider.of<ExpensesRepository>(context, listen: false);
                   if (value > 0 && category != '') {
-                    db.add(category, value, date);
+                    db.add(category, value / 100.0, date);
                     _controller.reverse();
                   } else {
                     showDialog(
