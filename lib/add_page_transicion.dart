@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 class AddPageTransition extends PageRouteBuilder {
@@ -6,10 +8,11 @@ class AddPageTransition extends PageRouteBuilder {
   AddPageTransition({
     this.page,
   }) : super(
-          transitionDuration: Duration(microseconds: 1),
+          transitionDuration: Duration(microseconds: 5),
           pageBuilder: (context, animation1, animation2) => page,
           transitionsBuilder: (context, animation1, animation, child) => child,
         );
+
   @override
   bool get Opaque => false;
 }

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:primera_app_curso/category_select_widget.dart';
-import 'package:primera_app_curso/login_state.dart';
+import 'package:primera_app_curso/expenses_repository.dart';
 import 'package:provider/provider.dart';
 
 class AddPage extends StatefulWidget {
@@ -20,6 +20,9 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
 
   String category;
   double value = 0;
+
+  String dateStr = "HOY";
+  DateTime date = DateTime.now();
 
   @override
   void initState() {
@@ -61,12 +64,32 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
               automaticallyImplyLeading: false,
               backgroundColor: Colors.transparent,
               elevation: 0.0,
-              title: Text(
-                "Categorias",
-                style: TextStyle(
-                  color: Colors.grey,
+              title: GestureDetector(
+                onTap: () {
+                  showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate:
+                              DateTime.now().subtract(Duration(hours: 24 * 30)),
+                          lastDate: DateTime.now())
+                      .then((newDate) {
+                    if (newDate != null) {
+                      setState(() {
+                        date = newDate;
+                        dateStr =
+                            "${date.year.toString()}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+                      });
+                    }
+                  });
+                },
+                child: Text(
+                  "CATEGORIAS ($dateStr)",
+                  style: TextStyle(
+                    color: Colors.grey,
+                  ),
                 ),
               ),
+              centerTitle: false,
               actions: <Widget>[
                 IconButton(
                     icon: Icon(
@@ -109,6 +132,8 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
           "Alcohol": FontAwesomeIcons.beer,
           "Fast Food": FontAwesomeIcons.hamburger,
           "bills": FontAwesomeIcons.wallet,
+          "Transport": FontAwesomeIcons.carAlt,
+          "Other": FontAwesomeIcons.infinity,
         },
         onValueChange: (newCategory) => category = newCategory,
       ),
@@ -119,10 +144,10 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 32.0),
       child: Text(
-        "\$${value.toStringAsFixed(2)}",
+        "\S/.${value.toStringAsFixed(2)}",
         style: TextStyle(
           fontSize: 50.0,
-          color: Colors.blueAccent,
+          color: Colors.lightGreen,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -219,14 +244,14 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(
                 buttonWidth * (1 - _buttonAnimation.value)),
-            color: Colors.blueAccent,
+            color: Colors.green,
           ),
           child: MaterialButton(
             child: Text(
-              "Add expense",
+              "Gastos",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 20.0,
+                fontSize: 22.0,
               ),
             ),
           ),
@@ -247,8 +272,9 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
                 color: Colors.blueAccent,
               ),
               child: MaterialButton(
+                color: Colors.green,
                 child: Text(
-                  'add Expenses',
+                  'Aceptar',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -256,28 +282,17 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
                   ),
                 ),
                 onPressed: () {
-                  var user = Provider.of<LoginState>(context, listen: false)
-                      .currentUser();
+                  var db =
+                      Provider.of<ExpensesRepository>(context, listen: false);
                   if (value > 0 && category != '') {
-                    FirebaseFirestore.instance
-                        .collection('users')
-                        .doc(user.uid)
-                        .collection('expenses')
-                        .doc()
-                        .set({
-                      "category": category,
-                      "value": value,
-                      "month": DateTime.now().month,
-                      "day": DateTime.now().day,
-                      "year": DateTime.now().year
-                    });
-                    Navigator.of(context).pop();
+                    db.add(category, value, date);
+                    _controller.reverse();
                   } else {
                     showDialog(
                         context: context,
                         builder: (context) => AlertDialog(
                               content: Text(
-                                  "Seleccionar categoria o un valor. GRACIAS!"),
+                                  "Falta Seleccionar Categoria o Monto. Muchas GRACIAS!"),
                               actions: <Widget>[
                                 TextButton(
                                   child: Text('aceptar'),

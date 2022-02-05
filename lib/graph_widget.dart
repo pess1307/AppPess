@@ -14,8 +14,9 @@ class _PieGraphwidgetState extends State<PieGraphwidget> {
   @override
   Widget build(BuildContext context) {
     List<Series<double, num>> series = [
-      Series<double, int>(
+      Series<double, num>(
         id: 'Gasto',
+        colorFn: (_, __) => MaterialPalette.green.shadeDefault.lighter,
         domainFn: (value, index) => index,
         measureFn: (value, _) => value,
         data: widget.data,
@@ -70,7 +71,7 @@ class _LinesGraphWidgetState extends State<LinesGraphWidget> {
     List<Series<double, num>> series = [
       Series<double, int>(
         id: 'Gasto',
-        colorFn: (_, __) => MaterialPalette.blue.shadeDefault,
+        colorFn: (_, __) => MaterialPalette.green.shadeDefault,
         domainFn: (value, index) => index,
         measureFn: (value, _) => value,
         data: widget.data,

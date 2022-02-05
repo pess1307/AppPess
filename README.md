@@ -1,8 +1,8 @@
-# PESS APP FLUTTER 
+# primera_app_curso
 
 A new Flutter project.
 
-## PESS APP FLUTTER 
+## Getting Started
 
 This project is a starting point for a Flutter application.
 

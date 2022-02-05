@@ -32,8 +32,8 @@ class CategoryWidget extends StatelessWidget {
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15.0),
                 border: Border.all(
-                  color: selected ? Colors.blueAccent : Colors.grey,
-                  width: selected ? 3.0 : 1.0,
+                  color: selected ? Colors.green : Colors.black,
+                  width: selected ? 7.0 : 5.0,
                 )),
             child: Icon(icon),
           ),

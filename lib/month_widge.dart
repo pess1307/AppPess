@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:primera_app_curso/graph_widget.dart';
-import 'package:primera_app_curso/pages/detail_page.dart';
+import 'package:primera_app_curso/pages/detail_page_container.dart';
 
 enum GraphType {
   LINES,
@@ -114,7 +114,7 @@ class _MonthWidgetState extends State<MonthWidget> {
         itemBuilder: (BuildContext context, int index) {
           var key = widget.categories.keys.elementAt(index);
           var data = widget.categories[key];
-          return _item(FontAwesomeIcons.shoppingCart, key,
+          return _item(FontAwesomeIcons.notesMedical, key,
               100 * data ~/ widget.total, data);
         },
         separatorBuilder: (BuildContext context, int index) {
@@ -134,12 +134,12 @@ class _MonthWidgetState extends State<MonthWidget> {
           "\S/.${widget.total.toStringAsFixed(2)}",
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            fontSize: 40.0,
+            fontSize: 45.0,
             color: Colors.blueGrey,
           ),
         ),
         Text(
-          "Total de Gastos",
+          "Gastados",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16.0,

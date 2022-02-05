@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:primera_app_curso/expenses_repository.dart';
 import 'package:primera_app_curso/login_state.dart';
 import 'package:primera_app_curso/month_widge.dart';
 import 'package:primera_app_curso/utils.dart';
@@ -58,15 +59,10 @@ class _InicioState extends State<Inicio> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LoginState>(
-        builder: (BuildContext context, LoginState value, Widget child) {
+    return Consumer<ExpensesRepository>(
+        builder: (BuildContext context, ExpensesRepository db, Widget child) {
       var user = Provider.of<LoginState>(context, listen: false).currentUser();
-      _query = FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .collection('expenses')
-          .where("month", isEqualTo: currentPage + 1)
-          .snapshots();
+      _query = db.queryByMonth(currentPage + 1);
       return Scaffold(
         bottomNavigationBar: BottomAppBar(
           notchMargin: 8.0,
@@ -97,6 +93,7 @@ class _InicioState extends State<Inicio> {
         floatingActionButton: RectGetter(
           key: globalKey,
           child: FloatingActionButton(
+            backgroundColor: Colors.green,
             child: Icon(Icons.add),
             onPressed: () {
               buttonRect = RectGetter.getRectFromKey(globalKey);
@@ -187,15 +184,9 @@ class _InicioState extends State<Inicio> {
       child: PageView(
         onPageChanged: (newPage) {
           setState(() {
-            var user =
-                Provider.of<LoginState>(context, listen: false).currentUser();
+            var db = Provider.of<ExpensesRepository>(context, listen: false);
             currentPage = newPage;
-            _query = FirebaseFirestore.instance
-                .collection('users')
-                .doc(user.uid)
-                .collection('expenses')
-                .where("month", isEqualTo: currentPage + 1)
-                .snapshots();
+            _query = db.queryByMonth(currentPage + 1);
           });
         },
         controller: _controller,
