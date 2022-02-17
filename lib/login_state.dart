@@ -26,9 +26,11 @@ class LoginState with ChangeNotifier {
     return _loading;
   }
 
-  User currentUser() {
+  /*User currentUser() {
     return _user;
-  }
+  }*/
+
+  User currentUser() => _user;
 
   void login() async {
     _loading = true;
@@ -72,7 +74,8 @@ class LoginState with ChangeNotifier {
   void loginState() async {
     _prefs = await SharedPreferences.getInstance();
     if (_prefs.containsKey('isLoggedIn')) {
-      _user = await _auth.currentUser;
+      //_user = await _auth.currentUser;
+      _user = _auth.currentUser;
       _loggedIn = _user != null;
       _loading = false;
       notifyListeners();

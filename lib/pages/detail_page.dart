@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:primera_app_curso/pages/ui/day_expense_list_tile.dart';
 
@@ -15,6 +14,7 @@ class DetailsPage extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text(categoryName),
+          backgroundColor: Colors.green,
         ),
         body: ListView.builder(
           itemCount: documents.length,

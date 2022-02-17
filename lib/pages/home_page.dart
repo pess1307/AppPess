@@ -61,7 +61,7 @@ class _InicioState extends State<Inicio> {
   Widget build(BuildContext context) {
     return Consumer<ExpensesRepository>(
         builder: (BuildContext context, ExpensesRepository db, Widget child) {
-      var user = Provider.of<LoginState>(context, listen: false).currentUser();
+      // var user = Provider.of<LoginState>(context, listen: false).currentUser();
       _query = db.queryByMonth(currentPage + 1);
       return Scaffold(
         bottomNavigationBar: BottomAppBar(
@@ -247,7 +247,7 @@ class _InicioState extends State<Inicio> {
         builder: (context) => AlertDialog(
               content: Text("Don't forget to add your expenses"),
               actions: <Widget>[
-                FlatButton(
+                TextButton(
                   child: Text('Ok'),
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -255,7 +255,7 @@ class _InicioState extends State<Inicio> {
                 ),
               ],
             ));
-  }
+  } //FlatButton remplaso por textbton
 
   void setupNotification() async {
     // repetir cada minito
@@ -269,7 +269,7 @@ class _InicioState extends State<Inicio> {
         0,
         'Gasto Algo?',
         'Si es ASI, REGISTRALO PORFAVOR ',
-        RepeatInterval.everyMinute,
+        RepeatInterval.hourly,
         platformChannelSpecifics,
         androidAllowWhileIdle: true);
   }

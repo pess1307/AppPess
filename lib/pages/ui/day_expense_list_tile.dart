@@ -31,7 +31,7 @@ class DayExpenseListTile extends StatelessWidget {
       ),
       title: Container(
         decoration: BoxDecoration(
-          color: Colors.blueAccent.withOpacity(0.2),
+          color: Colors.green.withOpacity(0.7),
           borderRadius: BorderRadius.circular(4.0),
         ),
         child: Padding(

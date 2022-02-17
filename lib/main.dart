@@ -7,6 +7,7 @@ import 'package:primera_app_curso/pages/add_page.dart';
 import 'package:primera_app_curso/pages/home_page.dart';
 import 'package:primera_app_curso/pages/login_page.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'pages/detail_page_container.dart';
 
@@ -33,6 +34,17 @@ class Miapp extends StatelessWidget {
         }),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('es', 'ES'),
+        ],
+
+        //debugShowCheckedModeBanner: false,
         title: 'CONTROL DE GASTOS',
         onGenerateRoute: (settings) {
           if (settings.name == '/details') {
@@ -49,6 +61,7 @@ class Miapp extends StatelessWidget {
               buttonRect: buttonRect,
             ));
           }
+          return null;
         },
         routes: {
           '/': (BuildContext context) {

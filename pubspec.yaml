@@ -38,6 +38,9 @@ dependencies:
   rect_getter: ^1.1.0
   flutter_local_notifications: ^9.2.0
   timezone: ^0.8.0
+  flutter_localizations: # Add this line
+    sdk: flutter
+
 
 dev_dependencies:
   flutter_test:

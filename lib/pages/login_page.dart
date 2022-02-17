@@ -49,6 +49,7 @@ class _LoginPageState extends State<LoginPage> {
                 }
               },
               child: ElevatedButton(
+                style: ElevatedButton.styleFrom(primary: Colors.green),
                 child: Text("Iniciar Sesion con Google"),
                 onPressed: () {
                   Provider.of<LoginState>(context, listen: false).login();

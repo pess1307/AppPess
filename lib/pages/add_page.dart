@@ -66,6 +66,15 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
               title: GestureDetector(
                 onTap: () {
                   showDatePicker(
+                          builder: (context, child) => Theme(
+                              data: ThemeData().copyWith(
+                                  colorScheme: ColorScheme.dark(
+                                primary: Colors.green,
+                                onPrimary: Colors.white,
+                                onSurface: Colors.grey,
+                                // surface: Colors.greenAccent,
+                              )),
+                              child: child),
                           context: context,
                           initialDate: DateTime.now(),
                           firstDate:
@@ -82,7 +91,7 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
                   });
                 },
                 child: Text(
-                  "CATEGORIAS ($dateStr)",
+                  "Fecha de Gasto ($dateStr)",
                   style: TextStyle(
                     color: Colors.grey,
                   ),
@@ -112,6 +121,7 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
     var h = MediaQuery.of(context).size.height;
     return Column(
       children: <Widget>[
+        Text('CATEGORIAS'),
         _categorySelector(),
         _currentValue(),
         _numpad(),
@@ -127,12 +137,14 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
       height: 80.0,
       child: CategorySelectionWidget(
         categories: {
-          "Shopping": Icons.shopping_cart,
-          "Alcohol": FontAwesomeIcons.beer,
-          "Fast Food": FontAwesomeIcons.hamburger,
-          "bills": FontAwesomeIcons.wallet,
-          "Transport": FontAwesomeIcons.carAlt,
-          "Other": FontAwesomeIcons.infinity,
+          "Compras": Icons.shopping_bag,
+          "Alcohol": FontAwesomeIcons.wineBottle,
+          "Servicios": FontAwesomeIcons.servicestack,
+          "Comida": Icons.dinner_dining,
+          "Antojitos": FontAwesomeIcons.moneyBillWave,
+          "Transporte": FontAwesomeIcons.busAlt,
+          "Ahorro Neto": FontAwesomeIcons.piggyBank,
+          "Otros": FontAwesomeIcons.infinity,
         },
         onValueChange: (newCategory) => category = newCategory,
       ),
@@ -254,8 +266,9 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
             color: Colors.green,
           ),
           child: MaterialButton(
+            onPressed: () {},
             child: Text(
-              "Gastos",
+              "Aceptar",
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 22.0,
@@ -291,7 +304,7 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
                 onPressed: () {
                   var db =
                       Provider.of<ExpensesRepository>(context, listen: false);
-                  if (value > 0 && category != '') {
+                  if (value > 0 && category != null) {
                     db.add(category, value / 100.0, date);
                     _controller.reverse();
                   } else {
@@ -299,7 +312,7 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
                         context: context,
                         builder: (context) => AlertDialog(
                               content: Text(
-                                  "Falta Seleccionar Categoria o Monto. Muchas GRACIAS!"),
+                                  "Falta Seleccionar Categoria o Monto. GRACIAS!"),
                               actions: <Widget>[
                                 TextButton(
                                   child: Text('aceptar'),

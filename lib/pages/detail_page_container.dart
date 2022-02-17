@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:primera_app_curso/expenses_repository.dart';
 import 'package:primera_app_curso/login_state.dart';
 import 'package:primera_app_curso/pages/detail_page.dart';
-import 'package:primera_app_curso/pages/ui/day_expense_list_tile.dart';
 import 'package:provider/provider.dart';
 
 class DetailsParams {

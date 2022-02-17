@@ -69,7 +69,7 @@ class _MonthWidgetState extends State<MonthWidget> {
           .toList();
       return Container(
         height: 250.0,
-        child: PieGraphwidget(data: widget.perDay),
+        child: PieGraphwidget(data: perCategory),
       );
     }
   }
@@ -139,7 +139,7 @@ class _MonthWidgetState extends State<MonthWidget> {
           ),
         ),
         Text(
-          "Gastados",
+          "Gasto Total",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16.0,
