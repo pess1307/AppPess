@@ -8,8 +8,9 @@ import 'package:provider/provider.dart';
 class DetailsParams {
   final String categoryName;
   final int month;
+  final String detalle;
 
-  DetailsParams(this.categoryName, this.month);
+  DetailsParams(this.categoryName, this.month, this.detalle);
 }
 
 class DetailsPageContainer extends StatefulWidget {
@@ -28,8 +29,8 @@ class _DetailsPageContainerState extends State<DetailsPageContainer> {
       builder: (BuildContext context, ExpensesRepository db, Widget child) {
         var user = Provider.of<LoginState>(context).currentUser();
         var db = ExpensesRepository(user.uid);
-        var _query = db.queryByCategory(
-            widget.params.month + 1, widget.params.categoryName);
+        var _query = db.queryByCategory(widget.params.month + 1,
+            widget.params.categoryName, widget.params.detalle);
         return StreamBuilder<QuerySnapshot>(
             stream: _query,
             builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> data) {

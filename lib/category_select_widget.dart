@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 class CategorySelectionWidget extends StatefulWidget {
   final Map<String, IconData> categories;
   final Function(String) onValueChange;
+  final Function(String) descripcion;
 
-  const CategorySelectionWidget({Key key, this.categories, this.onValueChange})
+  const CategorySelectionWidget(
+      {Key key, this.categories, this.onValueChange, this.descripcion})
       : super(key: key);
   @override
   _CategorySelectionWidgetState createState() =>
@@ -15,8 +17,10 @@ class CategoryWidget extends StatelessWidget {
   final String name;
   final IconData icon;
   final bool selected;
+  final String descripcion;
 
-  const CategoryWidget({Key key, this.name, this.icon, this.selected})
+  const CategoryWidget(
+      {Key key, this.name, this.icon, this.selected, this.descripcion})
       : super(key: key);
 
   @override
@@ -45,6 +49,30 @@ class CategoryWidget extends StatelessWidget {
 }
 
 class _CategorySelectionWidgetState extends State<CategorySelectionWidget> {
+  Future<String> createAlertDialog(BuildContext context) {
+    TextEditingController customController = TextEditingController();
+
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('¿En Que Gastaste?'),
+            content: TextField(
+              controller: customController,
+            ),
+            actions: <Widget>[
+              MaterialButton(
+                elevation: 5.0,
+                child: Text('Aceptar'),
+                onPressed: () {
+                  Navigator.of(context).pop(customController.text.toString());
+                },
+              )
+            ],
+          );
+        });
+  }
+
   String currentItem = "";
   @override
   Widget build(BuildContext context) {
@@ -56,7 +84,11 @@ class _CategorySelectionWidgetState extends State<CategorySelectionWidget> {
           setState(() {
             currentItem = name;
           });
-          widget.onValueChange(name);
+          // widget.onValueChange(name);
+          createAlertDialog(context).then((descripcionValue) {
+            widget.onValueChange(name);
+            widget.descripcion(descripcionValue);
+          });
         },
         child: CategoryWidget(
           name: name,

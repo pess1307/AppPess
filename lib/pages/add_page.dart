@@ -18,6 +18,7 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
   Animation _pageAnimation;
 
   String category;
+  String detalle;
   int value = 0;
 
   String dateStr = "HOY";
@@ -132,6 +133,7 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
     );
   }
 
+  //pess
   Widget _categorySelector() {
     return Container(
       height: 80.0,
@@ -147,6 +149,7 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
           "Otros": FontAwesomeIcons.infinity,
         },
         onValueChange: (newCategory) => category = newCategory,
+        descripcion: (newDescripcion) => detalle = newDescripcion,
       ),
     );
   }
@@ -305,7 +308,8 @@ class _AddPageState extends State<AddPage> with SingleTickerProviderStateMixin {
                   var db =
                       Provider.of<ExpensesRepository>(context, listen: false);
                   if (value > 0 && category != null) {
-                    db.add(category, value / 100.0, date);
+                    db.add(category, value / 100.0, date, detalle);
+
                     _controller.reverse();
                   } else {
                     showDialog(

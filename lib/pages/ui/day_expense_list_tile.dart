@@ -37,7 +37,7 @@ class DayExpenseListTile extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            "\S/.${document["value"]}",
+            "\S/.${document["value"]}" + " \ - ${document["Description"]}",
             style: TextStyle(
               fontWeight: FontWeight.w800,
               color: Colors.white,

@@ -16,9 +16,15 @@ class MonthWidget extends StatefulWidget {
   final Map<String, double> categories;
   final GraphType graphType;
   final int month;
+  final String detalle;
 
   MonthWidget(
-      {Key key, @required this.month, this.graphType, this.documents, days})
+      {Key key,
+      @required this.month,
+      this.graphType,
+      this.documents,
+      days,
+      this.detalle})
       : total = documents.map((doc) => doc['value']).fold(0.0, (a, b) => a + b),
         perDay = List.generate(days, (int index) {
           return documents
@@ -78,7 +84,11 @@ class _MonthWidgetState extends State<MonthWidget> {
     return ListTile(
       onTap: () {
         Navigator.of(context).pushNamed('/details',
-            arguments: DetailsParams(nombre, widget.month));
+            arguments: DetailsParams(
+              nombre,
+              widget.month,
+              widget.detalle,
+            ));
       },
       leading: Icon(
         icon,

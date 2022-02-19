@@ -5,13 +5,15 @@ class ExpensesRepository {
 
   ExpensesRepository(this.userId);
 
-  Stream<QuerySnapshot> queryByCategory(int month, String categoryName) {
+  Stream<QuerySnapshot> queryByCategory(
+      int month, String categoryName, String detalle) {
     return FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
         .collection('expenses')
         .where("month", isEqualTo: month)
         .where("category", isEqualTo: categoryName)
+        .where("Description", isEqualTo: detalle)
         .snapshots();
   }
 
@@ -33,7 +35,8 @@ class ExpensesRepository {
         .delete();
   }
 
-  add(String categoryName, double value, DateTime date) {
+  add(String categoryName, double value, DateTime date,
+      String detalleDescripcion) {
     FirebaseFirestore.instance
         .collection('users')
         .doc(userId)
@@ -44,7 +47,8 @@ class ExpensesRepository {
       "value": value,
       "month": date.month,
       "day": date.day,
-      "year": date.year
+      "year": date.year,
+      "Description": detalleDescripcion,
     });
   }
 }

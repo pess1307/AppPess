@@ -45,7 +45,7 @@ class Miapp extends StatelessWidget {
         ],
 
         //debugShowCheckedModeBanner: false,
-        title: 'CONTROL DE GASTOS',
+        title: 'Control de Gastos',
         onGenerateRoute: (settings) {
           if (settings.name == '/details') {
             DetailsParams params = settings.arguments;
